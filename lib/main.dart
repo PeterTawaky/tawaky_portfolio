@@ -1,13 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tawaky_portfolio/continuous_bounce_effect.dart';
-import 'package:tawaky_portfolio/core/utils/app_assets.dart';
 import 'package:tawaky_portfolio/core/utils/app_colors.dart';
 import 'package:tawaky_portfolio/core/utils/app_fonts.dart';
 import 'package:tawaky_portfolio/core/utils/app_strings.dart';
 import 'package:tawaky_portfolio/core/utils/extensions/num_extensions.dart';
 import 'package:tawaky_portfolio/models/professional_experience_model.dart';
 import 'package:tawaky_portfolio/models/technincal_skills_model.dart';
+import 'package:tawaky_portfolio/view/sections/experience_section.dart';
+import 'package:tawaky_portfolio/view/sections/info_section.dart';
+import 'package:tawaky_portfolio/view/sections/skills_section.dart';
 
 void main() {
   runApp(MyApp());
@@ -86,42 +88,10 @@ class MyApp extends StatelessWidget {
               children: [
                 InfoSection(),
                 SizedBox(height: 20.h(context)),
-                ProfessionalExperienceSection(),
+                ProfessionalExperienceSection( professionalExperiences: professionalExperiences),
                 SizedBox(height: 20.h(context)),
-                Column(
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        text: AppStrings.technical,
-                        style: TextStyle(
-                          fontSize: 48.sp(context),
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: AppStrings.skills,
-                            style: TextStyle(
-                              fontSize: 48.sp(context),
-                              color: AppColors.borderSkyLight,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      AppStrings.technicalSkillsSubtitle,
-                      style: TextStyle(
-                        fontSize: 18.sp(context),
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SkillsGridView(),
-                    // TechnicalSkillsCard(model: technicalSkills[0]),
-                  ],
-                ),
+                SkillsSection(),
+                
               ],
             ),
           ),
@@ -131,223 +101,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ProfessionalExperienceSection extends StatelessWidget {
-  const ProfessionalExperienceSection({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Column(
-          children: [
-            Text.rich(
-              TextSpan(
-                text: AppStrings.professional,
-                style: TextStyle(
-                  fontSize: 48.sp(context),
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
-                ),
-                children: [
-                  TextSpan(
-                    text: AppStrings.experience,
-                    style: TextStyle(
-                      fontSize: 48.sp(context),
-                      color: AppColors.borderSkyLight,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              AppStrings.experienceSubtitle,
-              style: TextStyle(
-                fontSize: 18.sp(context),
-                color: AppColors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
 
-            ...professionalExperiences.map(
-              (professionalExperienceModel) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ExperienceCard(Experience: professionalExperienceModel),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
 
-class InfoSection extends StatelessWidget {
-  const InfoSection({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: AppStrings.greeting,
-                    style: TextStyle(
-                      fontSize: 60.sp(context),
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                    children: [
-                      // TextSpan(
-                      //   text: AppStrings.myName,
-                      //   style: TextStyle(
-                      //     backgroundColor: AppColors.textBlack,
-                      //     fontSize: 80,
-                      //     color: AppColors.borderSkyLight,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-                GradientCard(
-                  color1Begin: AppColors.buttonSky,
-                  color2Begin: AppColors.borderSkyMedium,
-                  color1End: AppColors.borderSkyDark,
-                  color2End: AppColors.backGroundSkyDark,
-                  child: Text(
-                    AppStrings.myName,
-                    style: TextStyle(
-                      fontSize: 60.sp(context),
-                      color: AppColors.primaryBackgroundColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
 
-            Text(
-              AppStrings.jobTitle,
-              style: TextStyle(
-                fontSize: 30.sp(context),
-                color: AppColors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              AppStrings.subtitle,
-              style: TextStyle(
-                fontSize: 20,
-                color: AppColors.grey,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            Row(
-              children: [
-                SpecialButton(
-                  textColor: AppColors.textBlack,
-                  backgroundColor: AppColors.buttonSky,
-                  title: AppStrings.viewMyWork,
-                ),
-                SizedBox(width: 10),
-                SpecialButton(
-                  textColor: AppColors.textSky,
-                  title: AppStrings.cv,
-                  backgroundColor: AppColors.primaryBackgroundColor,
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                SocialMediaButton(platform: SocialMediaPlatform.github),
-                SocialMediaButton(platform: SocialMediaPlatform.linkedin),
-                SocialMediaButton(platform: SocialMediaPlatform.gmail),
-                SocialMediaButton(platform: SocialMediaPlatform.whatsapp),
-                SocialMediaButton(platform: SocialMediaPlatform.x),
-              ],
-            ),
-          ],
-        ),
-        Spacer(),
-        ContinuousBounceEffect(
-          duration: 1200,
-          speedFactor: 1.5,
-          bounceDistance: -8,
-          child: Container(
-            height: 350,
-            width: 350,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.borderSkyDark, width: 4),
-              image: DecorationImage(
-                image: AssetImage(Assets.imagesTawaky),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
-enum SocialMediaPlatform { github, x, whatsapp, gmail, linkedin }
 
-class SocialMediaButton extends StatelessWidget {
-  final SocialMediaPlatform platform;
-  const SocialMediaButton({super.key, required this.platform});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.grey, width: 1),
-        borderRadius: BorderRadius.circular(14.sp(context)),
-        color: AppColors.cardBackgroundColor,
-      ),
-      child: switch (platform) {
-        SocialMediaPlatform.github => Icon(
-          FontAwesomeIcons.github,
-          color: AppColors.grey,
-          size: 24.sp(context),
-        ),
-
-        SocialMediaPlatform.linkedin => Icon(
-          FontAwesomeIcons.linkedin,
-          color: AppColors.grey,
-          size: 24.sp(context),
-        ),
-
-        SocialMediaPlatform.whatsapp => Icon(
-          FontAwesomeIcons.whatsapp,
-          color: AppColors.grey,
-          size: 24.sp(context),
-        ),
-        SocialMediaPlatform.x => Icon(
-          FontAwesomeIcons.xTwitter,
-          color: AppColors.grey,
-          size: 24.sp(context),
-        ),
-        SocialMediaPlatform.gmail => Icon(
-          Icons.mail,
-          color: AppColors.grey,
-          size: 24.sp(context),
-        ),
-        // default case (fallback)
-        _ => Icon(Icons.error, color: Colors.red),
-      },
-    );
-  }
-}
 
 class SpecialButton extends StatelessWidget {
   final Color textColor;
@@ -548,14 +309,7 @@ class ExperienceCard extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                /// DESCRIPTION
-                // Text(r
-                //   Experience.description,
-                //   style: const TextStyle(
-                //     color: Color(0XFF8F96A3),
-                //     fontSize: 15,
-                //   ),
-                // ),
+                
                 Text.rich(
                   TextSpan(
                     text: AppStrings.haDescription1,
@@ -750,92 +504,3 @@ class SkillsGridView extends StatelessWidget {
     );
   }
 }
-
-// class TechnicalSkillsCard extends StatelessWidget {
-//   final TechnicalSkillsModel model;
-
-//   const TechnicalSkillsCard({super.key, required this.model});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Convert comma-separated skills → List
-//     final List<String> skillsList = model.skills
-//         .split(',')
-//         .map((e) => e.trim())
-//         .toList();
-
-//     return Container(
-//       padding: const EdgeInsets.all(20),
-//       decoration: BoxDecoration(
-//         color: AppColors.cardBackgroundColor,
-//         borderRadius: BorderRadius.circular(18),
-//         border: Border.all(color: AppColors.borderSkyDark, width: 1),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           /// HEADER ROW
-//           Row(
-//             children: [
-//               Container(
-//                 padding: const EdgeInsets.all(12),
-//                 decoration: BoxDecoration(
-//                   color: AppColors.backGroundSkyDark,
-//                   borderRadius: BorderRadius.circular(14),
-//                 ),
-//                 child: Icon(
-//                   model.icon.icon,
-//                   color: AppColors.textSky,
-//                   size: 28,
-//                 ),
-//               ),
-//               const SizedBox(width: 16),
-
-//               /// TITLE
-//               Text(
-//                 model.title,
-//                 style: const TextStyle(
-//                   color: AppColors.white,
-//                   fontSize: 20,
-//                   fontWeight: FontWeight.w700,
-//                 ),
-//               ),
-//             ],
-//           ),
-
-//           const SizedBox(height: 18),
-
-//           /// SKILLS TAGS
-//           Wrap(
-//             spacing: 12,
-//             runSpacing: 12,
-//             children: skillsList.map((skill) {
-//               return Container(
-//                 padding: const EdgeInsets.symmetric(
-//                   horizontal: 14,
-//                   vertical: 8,
-//                 ),
-//                 decoration: BoxDecoration(
-//                   color: AppColors.buttonBackgroundColor,
-//                   borderRadius: BorderRadius.circular(20),
-//                   border: Border.all(
-//                     color: AppColors.borderSkyMedium,
-//                     width: 1,
-//                   ),
-//                 ),
-//                 child: Text(
-//                   skill,
-//                   style: const TextStyle(
-//                     color: AppColors.white,
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w500,
-//                   ),
-//                 ),
-//               );
-//             }).toList(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

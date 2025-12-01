@@ -15,7 +15,8 @@ class AppStrings {
   static const String skills = 'Skills';
   static const String technicalSkillsSubtitle =
       'A comprehensive toolkit for building robust cross-platform applications';
-  static const String featuredProjects = 'Featured Projects';
+  static const String featured = 'Featured ';
+  static const String projects = 'Projects';
   static const String featuredProjectsSubtitle =
       'A showcase of innovative cross-platform applications and smart solutions';
   static const String education = 'Education';

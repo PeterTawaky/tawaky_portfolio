@@ -3,11 +3,10 @@ import 'package:tawaky_portfolio/core/utils/app_colors.dart';
 import 'package:tawaky_portfolio/core/utils/app_strings.dart';
 import 'package:tawaky_portfolio/core/utils/extensions/num_extensions.dart';
 import 'package:tawaky_portfolio/main.dart';
+import 'package:tawaky_portfolio/models/technincal_skills_model.dart';
 
 class SkillsSection extends StatelessWidget {
-  const SkillsSection({
-    super.key,
-  });
+  const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,11 @@ class SkillsSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SkillsGridView(),
+        GenericGridView<TechnicalSkillsModel>(
+          items: skillsData,
+          itemBuilder: (item) => SkillCard(model: item),
+        ),
+        // SkillsGridView(),
         // TechnicalSkillsCard(model: technicalSkills[0]),
       ],
     );

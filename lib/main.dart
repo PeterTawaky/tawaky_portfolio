@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tawaky_portfolio/core/utils/app_colors.dart';
+import 'package:tawaky_portfolio/core/utils/app_enums.dart';
 import 'package:tawaky_portfolio/core/utils/app_fonts.dart';
 import 'package:tawaky_portfolio/core/utils/app_strings.dart';
 import 'package:tawaky_portfolio/core/utils/extensions/num_extensions.dart';
+import 'package:tawaky_portfolio/models/featured_projects_model.dart';
 import 'package:tawaky_portfolio/models/professional_experience_model.dart';
 import 'package:tawaky_portfolio/models/technincal_skills_model.dart';
 import 'package:tawaky_portfolio/view/sections/experience_section.dart';
@@ -72,6 +73,59 @@ final List<TechnicalSkillsModel> skillsData = [
     items: ["Problem-solving", "Teamwork", "Communication", "Time Management"],
   ),
 ];
+final List<FeaturedProjectsModel> projects = [
+  FeaturedProjectsModel(
+    pointOfView: PointOfView.secured,
+    title: "SCADA - PV Solar System",
+    items: [
+      'Snap7',
+      'LTTB downsampling',
+      'HTTP',
+      'RBAC',
+      'Custom Paint',
+      'Real-Time Data Acquisition',
+      'Dashboards',
+      'Charts',
+      'Industrial Automation',
+      'System Control',
+      'Tia',
+      'PLC Integration',
+      'Analytics',
+      'interactive Visualizations',
+      'Streams',
+      'Adaptive UI',
+    ],
+  ),
+  FeaturedProjectsModel(
+    pointOfView: PointOfView.gitHub,
+    title: "GoPark - Smart Parking System",
+    items: [
+      'IoT',
+      'ESP32',
+      'Hardware Control',
+      'Real-Time Monitoring',
+      'Cubit',
+      'Firebase',
+      'Responsive Design',
+      'Elevator Control',
+      'Biometric Authentication',
+      'Fingerprint',
+      'Local DB',
+      'DI',
+    ],
+  ),
+  FeaturedProjectsModel(
+    pointOfView: PointOfView.gitHub,
+    title: "Habit Tracker",
+    items: [
+      'Notion Database Integration',
+      'API',
+      'Secure Token Storage',
+      'Bloc',
+      'CRUD',
+    ],
+  ),
+];
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -88,10 +142,99 @@ class MyApp extends StatelessWidget {
               children: [
                 InfoSection(),
                 SizedBox(height: 20.h(context)),
-                ProfessionalExperienceSection( professionalExperiences: professionalExperiences),
+                ProfessionalExperienceSection(
+                  professionalExperiences: professionalExperiences,
+                ),
                 SizedBox(height: 20.h(context)),
                 SkillsSection(),
-                
+                Column(
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        text: AppStrings.featured,
+                        style: TextStyle(
+                          fontSize: 48.sp(context),
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: AppStrings.projects,
+                            style: TextStyle(
+                              fontSize: 48.sp(context),
+                              color: AppColors.borderSkyLight,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      AppStrings.featuredProjectsSubtitle,
+                      style: TextStyle(
+                        fontSize: 18.sp(context),
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    GenericGridView<FeaturedProjectsModel>(
+                      items: projects,
+                      itemBuilder: (item) => Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: AppColors.cardBackgroundColor,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.grey, width: 0.5),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              item.title,
+                              style: TextStyle(
+                                fontSize: 20.sp(context),
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                            Text(
+                              'this is the description of the project',
+                              style: TextStyle(
+                                fontSize: 16.sp(context),
+                                color: AppColors.grey,
+                              ),
+                            ),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: item.items
+                                  .map(
+                                    (tag) => Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 14,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.05),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        tag,
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ), // Placeholder for project card
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -100,15 +243,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
 
 class SpecialButton extends StatelessWidget {
   final Color textColor;
@@ -309,7 +443,6 @@ class ExperienceCard extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                
                 Text.rich(
                   TextSpan(
                     text: AppStrings.haDescription1,
@@ -482,24 +615,66 @@ class SkillCard extends StatelessWidget {
   }
 }
 
-class SkillsGridView extends StatelessWidget {
-  const SkillsGridView({super.key});
+// class SkillsGridView extends StatelessWidget {
+//   const SkillsGridView({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GridView.builder(
+//       shrinkWrap: true,
+//       physics: const NeverScrollableScrollPhysics(),
+//       padding: const EdgeInsets.all(20),
+//       itemCount: skillsData.length,
+//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 3, // 2 columns
+//         crossAxisSpacing: 20,
+//         mainAxisSpacing: 20,
+//         childAspectRatio: 2.1,
+//       ),
+//       itemBuilder: (context, index) {
+//         return SkillCard(model: skillsData[index]);
+//       },
+//     );
+//   }
+// }
+
+class GenericGridView<T> extends StatelessWidget {
+  final List<T> items;
+  final Widget Function(T item) itemBuilder;
+  final int crossAxisCount;
+  final double crossAxisSpacing;
+  final double mainAxisSpacing;
+  final double childAspectRatio;
+  final EdgeInsetsGeometry? padding;
+  final bool shrinkWrap;
+
+  const GenericGridView({
+    super.key,
+    required this.items,
+    required this.itemBuilder,
+    this.crossAxisCount = 3,
+    this.crossAxisSpacing = 20,
+    this.mainAxisSpacing = 20,
+    this.childAspectRatio = 2.1,
+    this.padding,
+    this.shrinkWrap = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      shrinkWrap: true,
+      shrinkWrap: shrinkWrap,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(20),
-      itemCount: skillsData.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3, // 2 columns
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-        childAspectRatio: 2.1,
+      padding: padding ?? const EdgeInsets.all(20),
+      itemCount: items.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: crossAxisSpacing,
+        mainAxisSpacing: mainAxisSpacing,
+        childAspectRatio: childAspectRatio,
       ),
       itemBuilder: (context, index) {
-        return SkillCard(model: skillsData[index]);
+        return itemBuilder(items[index]);
       },
     );
   }
